@@ -28,13 +28,13 @@ docker-compose up -d
 ### Web server
 
 ```bash
-cd fastapi && pip install -r requirements.txt
+cd web && pip install -r requirements.txt
 ``` 
 
 ### Run 
 
 ```bash
-cd fastapi && uvicorn app:app --reload
+cd web && uvicorn app:app --reload
 ``` 
 
 ## Send a chat message
