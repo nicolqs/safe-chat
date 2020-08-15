@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
 
 import api.chat_api
-import dal.chat_dal
+import api.user_api
 import models.base as base_models
 import rabbitmq.client
 
@@ -17,16 +17,14 @@ async def root():
 
 @app.get("/users")
 async def users():
-    # @TODO TO BE MOVED api/ no DAL in the views
-    users = await dal.chat_dal.all_users()
+    users = await api.user_api.all_users()
     return jsonable_encoder(users)
 
 
 @app.get("/chat")
 async def chat():
-    # @TODO TO BE MOVED to api/ no DAL in the views
-    chats = await dal.chat_dal.all_chats()
-    return jsonable_encoder(len(chats))
+    chats = await api.chat_api.all_chats()
+    return jsonable_encoder(chats)
 
 
 @app.post("/send_chat")

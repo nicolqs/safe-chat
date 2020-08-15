@@ -1,6 +1,6 @@
 from profanity import profanity
 
-from dal import chat_dal
+import dal.chat_dal
 import rabbitmq.client
 
 
@@ -27,3 +27,8 @@ async def is_profanity_message(chat_message):
         return is_profanity, msg_dict
 
     return is_profanity, None
+
+
+async def all_chats():
+    chats = await dal.chat_dal.all_chats()
+    return chats

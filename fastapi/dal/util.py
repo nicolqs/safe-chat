@@ -29,3 +29,8 @@ def get_cassandra_conn(keyspace="users"):
                 session.execute(cql)
                 cql = f.readline()
     return session
+
+
+def get_db_conn():
+    """Wrapper to get a DB connection, DB agnostic"""
+    return get_cassandra_conn()
