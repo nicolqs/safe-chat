@@ -4,7 +4,7 @@ Chat message queue processing that filters out messages with profanity
 
 ## Architecture
 
-- FastAPI web server
+- [FastAPI](https://fastapi.tiangolo.com/) web server
 - CassandraDB
 - RabbitMQ server
 - RabbitMQ worker
@@ -36,6 +36,17 @@ cd fastapi && pip install -r requirements.txt
 ```bash
 cd fastapi && uvicorn app:app --reload
 ``` 
+
+## Send a chat message
+
+POST as JSON to http://127.0.0.1:8000/send_chat
+```
+{
+    "uid_src": 1,
+    "uid_dest": 2,
+    "message": "Hello World"
+}
+```
 
 ## Troubleshoot
 
