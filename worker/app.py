@@ -8,7 +8,7 @@ print(" [*] Sleeping for ", sleepTime, " seconds.")
 time.sleep(sleepTime)
 
 print(" [*] Connecting to server ...")
-connection = pika.BlockingConnection(pika.ConnectionParameters("192.168.240.2"))
+connection = pika.BlockingConnection(pika.ConnectionParameters("192.168.240.3"))
 channel = connection.channel()
 channel.queue_declare(queue="chat_queue", durable=True)
 
