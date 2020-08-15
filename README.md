@@ -1,4 +1,4 @@
-# Safe-Chat
+# Safe-Chat | FastAPI - Cassandra - RabbitMQ - Docker
 
 Chat message queue processing that filters out messages with profanity
 
