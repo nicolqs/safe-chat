@@ -1,7 +1,7 @@
 from profanity import profanity
 
 from dal import chat_dal
-import rabbitmq.client 
+import rabbitmq.client
 
 
 async def save_chat_message(chat_message):

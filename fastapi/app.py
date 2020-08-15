@@ -4,7 +4,7 @@ from fastapi.encoders import jsonable_encoder
 import api.chat_api
 import dal.chat_dal
 import models.base as base_models
-import rabbitmq.client 
+import rabbitmq.client
 
 # Fast API
 app = FastAPI()

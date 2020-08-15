@@ -13,16 +13,6 @@ services:
       - CASSANDRA_PASSWORD_SEEDER=yes
       - CASSANDRA_PASSWORD=cassandra
 
-  # rabbitmq:
-  #   build: ./rabbitmq
-  #   ports:
-  #     - '4369:4369'
-  #     - '5672:5672'
-  #     - '25672:25672'
-  #     - '15672:15672'
-  #   volumes:
-  #     - 'rabbitmq_data:/bitnami'
-
   rabbitmq:
     image: 'rabbitmq:3.6-management-alpine'
     ports:
