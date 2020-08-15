@@ -1,15 +1,28 @@
 import React from "react";
-import logo from "./logo.svg";
+import ConnectToFireBase from "./firebase/firebase.jsx";
 import "./App.css";
 
-function ChatListItem(props) {
+type chatListItemType = {
+  date: string,
+  name: string,
+  text: string,
+}
+
+type messageType = {
+  date: string,
+  time: string,
+  text: string,
+}
+
+
+function ChatListItem(props: chatListItemType) {
   return (
     <div className="chat_list active_chat">
       <div className="chat_people">
         <div className="chat_img">
           <img
             src="https://ptetutorials.com/images/user-profile.png"
-            alt="sunil"
+            alt="john"
           />
         </div>
         <div className="chat_ib">
@@ -23,7 +36,7 @@ function ChatListItem(props) {
   );
 }
 
-function SentMessage(props) {
+function SentMessage(props: messageType) {
   return (
     <div className="outgoing_msg">
       <div className="sent_msg">
@@ -36,13 +49,13 @@ function SentMessage(props) {
   );
 }
 
-function ReceivedMessage(props) {
+function ReceivedMessage(props: messageType) {
   return (
     <div className="incoming_msg">
       <div className="incoming_msg_img">
         <img
           src="https://ptetutorials.com/images/user-profile.png"
-          alt="sunil"
+          alt="john"
         />
       </div>
       <div className="received_msg">
@@ -77,7 +90,7 @@ function App() {
                   />
                   <span className="input-group-addon">
                     <button type="button">
-                      <i className="fa fa-search" aria-hidden="true"></i>
+                      <i className="fa fa-search" aria-hidden="true"/>
                     </button>
                   </span>
                 </div>
@@ -117,7 +130,7 @@ function App() {
                   placeholder="Type a message"
                 />
                 <button className="msg_send_btn" type="button">
-                  <i className="fa fa-paper-plane-o" aria-hidden="true"></i>
+                  <i className="fa fa-paper-plane-o" aria-hidden="true"/>
                 </button>
               </div>
             </div>

@@ -8,6 +8,7 @@ Chat message queue processing that filters out messages with profanity
 - CassandraDB
 - RabbitMQ server
 - RabbitMQ worker
+- React 
 
 
 ## Install
