@@ -25,16 +25,16 @@ source venv/bin/activate
 docker-compose up -d
 ``` 
 
-### Web server
+### API server
 
 ```bash
-cd web && pip install -r requirements.txt
+cd restapi && pip install -r requirements.txt
 ``` 
 
 ### Run 
 
 ```bash
-cd web && uvicorn app:app --reload
+cd restapi && uvicorn app:app --reload
 ``` 
 
 ## Send a chat message
