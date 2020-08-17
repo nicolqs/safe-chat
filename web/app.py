@@ -1,5 +1,5 @@
-from typing import List
 from fastapi import FastAPI, WebSocket
+from fastapi.logger import logger
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -26,8 +26,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-import websocket.chat
 
+# import websocket_chat.chat
 
 @app.get("/")
 async def root():
@@ -63,3 +63,17 @@ async def queue():
 def process_message():
     """Process the message"""
     pass
+
+
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    while True:
+        data = await websocket.receive_text()
+        chat_message = base_models.ChatMessage(uid_src=1, uid_dest=2, message=data)
+        is_profanity, msg_dict = await api.chat_api.send_chat(chat_message)
+        if not is_profanity:
+            await websocket.send_text(f"Message text was: {data}")
+        else:
+            logger.info('### Profanity detected')
+            print('### Profanity detected')

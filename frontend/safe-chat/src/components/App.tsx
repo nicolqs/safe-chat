@@ -73,16 +73,12 @@ const ChatContainer = (): any => {
   const { userState, userActions } = useUserStore();
   const [text, setText] = useState("");
   const [user, setUser] = useState(1);
-  const handleSendMessage = () => {
-    userActions.send_message(text);
-    const ws = actions.getWs(user)
-    ws.send(text);
-    userActions.add_message(text, user, new Date());
-  };
+
   useEffect(() => {
     // connect to websocket
     actions.subscribe(userActions, user);
   }, [user]);
+
   return (
     <div className="container">
       <div>
@@ -160,7 +156,9 @@ const ChatContainer = (): any => {
                   className="msg_send_btn"
                   type="button"
                   onClick={() => {
-                    handleSendMessage();
+                    actions.sendChatMessage(text);
+                    window.websocket.send(text);
+                    userActions.add_message(text, user, new Date());
                   }}
                 >
                   <i className="fa fa-paper-plane-o" aria-hidden="true" />

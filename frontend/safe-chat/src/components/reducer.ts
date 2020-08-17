@@ -13,20 +13,10 @@ export type ActionType = SendMessageAction;
 
 export function reducer(state: userInfoType, action: ActionType) {
   switch (action.type) {
-    case "SEND_CHAT":
-      if (action.text) {
-        actions.sendChatMessage(action.text);
-        return {
-          // messages: state.messages.push(buildNewMessage(action)),
-          ...state,
-        };
-      }
-      return { ...state };
     case "ADD_CHAT":
       if (action.text) {
-        const newMessage = buildNewMessage(action);
         return {
-          messages: state.messages.push(newMessage),
+          messages: state.messages.push(buildNewMessage(action)),
           ...state,
         };
       }
