@@ -5,8 +5,6 @@ import "firebase/auth";
 import {
   FirebaseAuthProvider,
   FirebaseAuthConsumer,
-  IfFirebaseAuthed,
-  IfFirebaseAuthedAnd,
 } from "@react-firebase/auth";
 
 function ConnectToFireBase() {
@@ -24,52 +22,43 @@ function ConnectToFireBase() {
   return (
     <FirebaseAuthProvider {...config} firebase={firebase}>
       <div>
-        <button
-          onClick={() => {
-            const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
-            firebase.auth().signInWithPopup(googleAuthProvider);
-          }}
-        >
-          Sign In with Google
-        </button>
-        <button
-          data-testid="signin-anon"
-          onClick={() => {
-            firebase.auth().signInAnonymously();
-          }}
-        >
-          Sign In Anonymously
-        </button>
-        <button
-          onClick={() => {
-            firebase.auth().signOut();
-          }}
-        >
-          Sign Out
-        </button>
         <FirebaseAuthConsumer>
           {({ isSignedIn, user, providerId }) => {
+            if (user) {
+              const userInfo = {
+                name: user.displayName,
+                avatar: user.photoURL,
+              };
+              // props.setUserInfo(userInfo);
+            }
+            if (!isSignedIn) {
+              return (
+                <button className="btn btn-light btn-secondary btn-sm"
+                  onClick={() => {
+                    const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+                    firebase.auth().signInWithPopup(googleAuthProvider);
+                  }}
+                >
+                  Sign In with Google
+                </button>
+              );
+            }
             return (
-              <pre style={{ height: 300, overflow: "auto" }}>
-                {JSON.stringify({ isSignedIn, user, providerId }, null, 2)}
-              </pre>
+              <>
+                <button className="btn btn-light btn-secondary btn-sm"
+                  onClick={() => {
+                    firebase.auth().signOut();
+                  }}
+                >
+                  Sign Out
+                </button>
+                {/*<pre style={{ height: 300, overflow: "auto" }}>*/}
+                {/*  {JSON.stringify({ isSignedIn, user, providerId }, null, 2)}*/}
+                {/*</pre>*/}
+              </>
             );
           }}
         </FirebaseAuthConsumer>
-        <div>
-          <IfFirebaseAuthed>
-            {() => {
-              return <div>You are authenticated</div>;
-            }}
-          </IfFirebaseAuthed>
-          <IfFirebaseAuthedAnd
-            filter={({ providerId }) => providerId !== "anonymous"}
-          >
-            {({ providerId }) => {
-              return <div>You are authenticated with {providerId}</div>;
-            }}
-          </IfFirebaseAuthedAnd>
-        </div>
       </div>
     </FirebaseAuthProvider>
   );

@@ -1,19 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import ConnectToFireBase from "./firebase/firebase.jsx";
+import {useUserStore, UserProvider} from "./store";
 import "./App.css";
 
 type chatListItemType = {
-  date: string,
-  name: string,
-  text: string,
-}
+  date: string;
+  name: string;
+  text: string;
+};
 
 type messageType = {
-  date: string,
-  time: string,
-  text: string,
-}
-
+  date: string;
+  time: string;
+  text: string;
+};
 
 function ChatListItem(props: chatListItemType) {
   return (
@@ -70,10 +70,19 @@ function ReceivedMessage(props: messageType) {
   );
 }
 
-function App() {
+function UserInfo(props: any) {
+  return props.name;
+}
+
+const ChatContainer = (): any => {
+  const {userState, userActions} = useUserStore();
+  const [text, setText] = useState("");
   return (
     <div className="container">
-      <h3 className="text-center">Messaging</h3>
+      <div>
+        <UserInfo name={userState.name} />
+        <h3 className="text-center">Messaging</h3>
+      </div>
       <div className="messaging">
         <div className="inbox_msg">
           <div className="inbox_people">
@@ -90,7 +99,7 @@ function App() {
                   />
                   <span className="input-group-addon">
                     <button type="button">
-                      <i className="fa fa-search" aria-hidden="true"/>
+                      <i className="fa fa-search" aria-hidden="true" />
                     </button>
                   </span>
                 </div>
@@ -128,18 +137,41 @@ function App() {
                   type="text"
                   className="write_msg"
                   placeholder="Type a message"
+                  onChange={(e) => {
+                    setText(e.target.value);
+                  }}
                 />
-                <button className="msg_send_btn" type="button">
-                  <i className="fa fa-paper-plane-o" aria-hidden="true"/>
+                <button
+                  className="msg_send_btn"
+                  type="button"
+                  onClick={() => {
+                    userActions.send_message(text);
+                  }}
+                >
+                  <i className="fa fa-paper-plane-o" aria-hidden="true" />
                 </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-
       <ConnectToFireBase />
     </div>
+  );
+}
+
+
+function App() {
+  return (
+    <>
+      {/*
+      // @ts-ignore */}
+    <UserProvider>
+      {/*
+      // @ts-ignore */}
+      <ChatContainer />
+    </UserProvider>
+      </>
   );
 }
 

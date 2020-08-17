@@ -6,10 +6,9 @@ Chat message queue processing that filters out messages with profanity
 
 - [FastAPI](https://fastapi.tiangolo.com/) web server
 - CassandraDB
-- RabbitMQ server
-- RabbitMQ worker
-- React 
-
+- RabbitMQ server & worker
+- React + TypeScript
+- Firebase
 
 ## Install
 

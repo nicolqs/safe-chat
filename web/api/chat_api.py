@@ -5,12 +5,11 @@ import rabbitmq.client
 
 
 async def save_chat_message(chat_message):
-    is_saved = await chat_dal.insert_chat(chat_message)
-    return is_saved
+    await dal.chat_dal.insert_chat(chat_message)
 
 
 async def send_chat(chat_message):
-    is_saved = await save_chat_message(chat_message)
+    await save_chat_message(chat_message)
     is_profanity, msg_dict = await is_profanity_message(chat_message)
 
     if not is_profanity:

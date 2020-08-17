@@ -8,7 +8,7 @@ print(" [*] Sleeping for ", sleepTime, " seconds.")
 time.sleep(sleepTime)
 
 print(" [*] Connecting to server ...")
-connection = pika.BlockingConnection(pika.ConnectionParameters("192.168.240.3"))
+connection = pika.BlockingConnection(pika.ConnectionParameters("172.20.0.4"))
 channel = connection.channel()
 channel.queue_declare(queue="chat_queue", durable=True)
 
@@ -19,7 +19,7 @@ def callback(ch, method, properties, body):
     print(" [x] Received %s" % body)
     cmd = body.decode()
 
-    print("body", body)
+    print("body", cmd)
 
     print(" [x] Done")
 
