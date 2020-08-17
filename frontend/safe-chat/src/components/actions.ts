@@ -6,6 +6,13 @@ type chatMessageType = {
   message: string;
 };
 
+export function getWs(user: number) {
+  console.log('connecting')
+  return new WebSocket("ws://localhost:8000/subscribe/" + user);
+}
+
+const host = "http://localhost:8000";
+
 export async function sendChatMessage(text: string) {
   try {
     const payload: chatMessageType = {
@@ -13,16 +20,32 @@ export async function sendChatMessage(text: string) {
       uid_dest: 2,
       message: text,
     };
-    const res: Response = await axios.post(
-      "http://localhost:8000/send_chat",
-      payload
-    );
-    return await res.json();
+    // await axios.post(host + "/send_chat", payload);
   } catch (e) {
     console.error(e);
   }
 }
 
+export async function subscribe(userActions: any, user: number) {
+  const ws = getWs(user);
+
+  ws.onopen = function () {
+    console.log("Websocket opened");
+  };
+
+  ws.onmessage = function (evt) {
+    const receivedMsg = evt.data;
+    console.log("Message is received...", receivedMsg);
+    userActions.add_message(receivedMsg, user, new Date());
+  };
+
+  ws.onclose = function () {
+    console.log("Websocket is closed...");
+  };
+}
+
 export default {
   sendChatMessage,
+  subscribe,
+  getWs,
 };

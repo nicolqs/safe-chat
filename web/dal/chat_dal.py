@@ -7,7 +7,9 @@ from . import util
 
 async def all_chats():
     session = util.get_db_conn()
-    rows = session.execute("SELECT message, uid_dest, uid_src, created_at FROM users.chat LIMIT 50") # WHERE created_at > '2018-08-16' ALLOW FILTERING")
+    rows = session.execute(
+        "SELECT message, uid_dest, uid_src, created_at FROM users.chat LIMIT 50"
+    )  # WHERE created_at > '2018-08-16' ALLOW FILTERING")
     return [r for r in rows]
 
 

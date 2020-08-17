@@ -33,7 +33,8 @@ function ConnectToFireBase() {
             }
             if (!isSignedIn) {
               return (
-                <button className="btn btn-light btn-secondary btn-sm"
+                <button
+                  className="btn btn-light btn-secondary btn-sm"
                   onClick={() => {
                     const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
                     firebase.auth().signInWithPopup(googleAuthProvider);
@@ -45,7 +46,8 @@ function ConnectToFireBase() {
             }
             return (
               <>
-                <button className="btn btn-light btn-secondary btn-sm"
+                <button
+                  className="btn btn-light btn-secondary btn-sm"
                   onClick={() => {
                     firebase.auth().signOut();
                   }}

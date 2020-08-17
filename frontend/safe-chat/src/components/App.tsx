@@ -1,17 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ConnectToFireBase from "./firebase/firebase.jsx";
-import {useUserStore, UserProvider} from "./store";
+import { useUserStore, UserProvider, messageType } from "./store";
+import actions from "./actions";
 import "./App.css";
 
 type chatListItemType = {
   date: string;
   name: string;
-  text: string;
-};
-
-type messageType = {
-  date: string;
-  time: string;
   text: string;
 };
 
@@ -40,7 +35,7 @@ function SentMessage(props: messageType) {
   return (
     <div className="outgoing_msg">
       <div className="sent_msg">
-        <p>{props.text}</p>
+        <p>{props.message}</p>
         <span className="time_date">
           {props.time} | {props.date}
         </span>
@@ -60,7 +55,7 @@ function ReceivedMessage(props: messageType) {
       </div>
       <div className="received_msg">
         <div className="received_withd_msg">
-          <p>{props.text}</p>
+          <p>{props.message}</p>
           <span className="time_date">
             {props.time} | {props.date}
           </span>
@@ -75,12 +70,32 @@ function UserInfo(props: any) {
 }
 
 const ChatContainer = (): any => {
-  const {userState, userActions} = useUserStore();
+  const { userState, userActions } = useUserStore();
   const [text, setText] = useState("");
+  const [user, setUser] = useState(1);
+  const handleSendMessage = () => {
+    userActions.send_message(text);
+    const ws = actions.getWs(user)
+    ws.send(text);
+    userActions.add_message(text, user, new Date());
+  };
+  useEffect(() => {
+    // connect to websocket
+    actions.subscribe(userActions, user);
+  }, [user]);
   return (
     <div className="container">
       <div>
         <UserInfo name={userState.name} />
+        <div className="col-sm-1">
+        <input
+          className="form-control form-control-sm"
+          name="username"
+          onChange={(e) => {
+            setUser(parseInt(e.target.value));
+          }}
+        />
+        </div>
         <h3 className="text-center">Messaging</h3>
       </div>
       <div className="messaging">
@@ -115,21 +130,21 @@ const ChatContainer = (): any => {
           </div>
           <div className="mesgs">
             <div className="msg_history">
-              <ReceivedMessage
-                text={"I am watching Tiger King, it's awesome"}
-                date={"June 9"}
-                time={"11:01 AM"}
-              />
-              <SentMessage
-                text={"I did too! it was epic"}
-                date={"June 9"}
-                time={"11:03 AM"}
-              />
-              <ReceivedMessage
-                text={"Hey, what are you doing this weekend?"}
-                date={"Yesterday"}
-                time={"12:09 PM"}
-              />
+              {userState.messages.map((msg: messageType) =>
+                msg.sender === 1 ? (
+                  <SentMessage
+                    message={msg.message}
+                    date={msg.date}
+                    time={msg.time}
+                  />
+                ) : (
+                  <ReceivedMessage
+                    message={msg.message}
+                    date={msg.date}
+                    time={msg.time}
+                  />
+                )
+              )}
             </div>
             <div className="type_msg">
               <div className="input_msg_write">
@@ -145,7 +160,7 @@ const ChatContainer = (): any => {
                   className="msg_send_btn"
                   type="button"
                   onClick={() => {
-                    userActions.send_message(text);
+                    handleSendMessage();
                   }}
                 >
                   <i className="fa fa-paper-plane-o" aria-hidden="true" />
@@ -158,20 +173,19 @@ const ChatContainer = (): any => {
       <ConnectToFireBase />
     </div>
   );
-}
-
+};
 
 function App() {
   return (
     <>
       {/*
       // @ts-ignore */}
-    <UserProvider>
-      {/*
+      <UserProvider>
+        {/*
       // @ts-ignore */}
-      <ChatContainer />
-    </UserProvider>
-      </>
+        <ChatContainer />
+      </UserProvider>
+    </>
   );
 }
 
