@@ -82,16 +82,7 @@ const ChatContainer = (): any => {
   return (
     <div className="container">
       <div>
-        <UserInfo name={userState.name} />
-        <div className="col-sm-1">
-        <input
-          className="form-control form-control-sm"
-          name="username"
-          onChange={(e) => {
-            setUser(parseInt(e.target.value));
-          }}
-        />
-        </div>
+        <ConnectToFireBase />
         <h3 className="text-center">Messaging</h3>
       </div>
       <div className="messaging">
@@ -168,7 +159,6 @@ const ChatContainer = (): any => {
           </div>
         </div>
       </div>
-      <ConnectToFireBase />
     </div>
   );
 };
@@ -178,6 +168,7 @@ function App() {
     <>
       {/*
       // @ts-ignore */}
+
       <UserProvider>
         {/*
       // @ts-ignore */}

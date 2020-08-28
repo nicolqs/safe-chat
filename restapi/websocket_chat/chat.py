@@ -153,7 +153,7 @@ class Room:
 
 
 class RoomEventMiddleware:
-    """Middleware for providing a global :class:`~.Room` instance to both HTTP
+    """Middleware for providing a global Room instance to both HTTP
     and WebSocket scopes.
 
     Although it might seem odd to load the broadcast interface like this (as
@@ -232,7 +232,7 @@ async def kick_user(request: Request, user_id: str):
 
 @app.websocket_route("/ws", name="ws")
 class RoomLive(WebSocketEndpoint):
-    """Live connection to the global :class:`~.Room` instance, via WebSocket.
+    """Live connection to the global Room instance, via WebSocket.
     """
 
     encoding: str = "text"
@@ -258,7 +258,7 @@ class RoomLive(WebSocketEndpoint):
 
         New users are assigned a user ID and notified of the room's connected
         users. The other connected users are notified of the new user's arrival,
-        and finally the new user is added to the global :class:`~.Room` instance.
+        and finally the new user is added to the global Room instance.
         """
         log.info("Connecting new user...")
         room: Optional[Room] = self.scope.get("room")
@@ -274,7 +274,7 @@ class RoomLive(WebSocketEndpoint):
         self.room.add_user(self.user_id, websocket)
 
     async def on_disconnect(self, _websocket: WebSocket, _close_code: int):
-        """Disconnect the user, removing them from the :class:`~.Room`, and
+        """Disconnect the user, removing them from the Room, and
         notifying the other users of their departure.
         """
         if self.user_id is None:

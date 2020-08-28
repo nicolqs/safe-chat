@@ -1,11 +1,11 @@
-import React from "react";
-
+import React, { useState } from "react";
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import {
   FirebaseAuthProvider,
   FirebaseAuthConsumer,
 } from "@react-firebase/auth";
+import { useUserStore } from "../store";
 
 function ConnectToFireBase() {
   const config = {
@@ -19,6 +19,9 @@ function ConnectToFireBase() {
     measurementId: "G-LCWJ5P1906",
   };
 
+  const { userState, userActions } = useUserStore();
+  const [userName, setUserName] = useState(userState.name);
+
   return (
     <FirebaseAuthProvider {...config} firebase={firebase}>
       <div>
@@ -29,7 +32,7 @@ function ConnectToFireBase() {
                 name: user.displayName,
                 avatar: user.photoURL,
               };
-              // props.setUserInfo(userInfo);
+              // setUserName(user.displayName);
             }
             if (!isSignedIn) {
               return (
@@ -45,7 +48,8 @@ function ConnectToFireBase() {
               );
             }
             return (
-              <>
+              <div>
+                <span>{userName}</span>&nbsp;
                 <button
                   className="btn btn-light btn-secondary btn-sm"
                   onClick={() => {
@@ -57,7 +61,7 @@ function ConnectToFireBase() {
                 {/*<pre style={{ height: 300, overflow: "auto" }}>*/}
                 {/*  {JSON.stringify({ isSignedIn, user, providerId }, null, 2)}*/}
                 {/*</pre>*/}
-              </>
+              </div>
             );
           }}
         </FirebaseAuthConsumer>

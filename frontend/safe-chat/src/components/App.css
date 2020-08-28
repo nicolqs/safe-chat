@@ -35,7 +35,6 @@ img {
   display: inline-block;
   text-align: right;
   width: 60%;
-  padding: ;
 }
 .headind_srch {
   padding: 10px 29px 10px 20px;
@@ -193,12 +192,12 @@ img {
   overflow-y: auto;
 }
 #main {
-    margin-top: 4rem;
+  margin-top: 4rem;
 }
 #chatbox {
-    overflow-y: scroll;
-    height: 40rem;
+  overflow-y: scroll;
+  height: 40rem;
 }
 .thin-alert {
-    padding: .25rem 1.25rem;
+  padding: 0.25rem 1.25rem;
 }

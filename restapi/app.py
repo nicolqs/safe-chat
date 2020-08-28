@@ -27,7 +27,7 @@ app.add_middleware(
 )
 
 
-# import websocket_chat.chat
+import websocket_chat.chat
 
 @app.get("/")
 async def root():

@@ -1,7 +1,9 @@
 import axios from "axios";
 
 declare global {
-    interface Window { websocket: any; }
+  interface Window {
+    websocket: any;
+  }
 }
 
 window.websocket = window.websocket || {};
@@ -34,7 +36,7 @@ export async function subscribe(userActions: any, user: number) {
     console.log("Websocket opened");
   };
 
-  window.websocket.onmessage = function(evt: any) {
+  window.websocket.onmessage = function (evt: any) {
     const receivedMsg = evt.data;
     console.log("Message is received...", receivedMsg);
     userActions.add_message(receivedMsg, 2, new Date());
